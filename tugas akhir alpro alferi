@@ -1,6 +1,167 @@
-#include<studio.h>
-int main(){
-  printf("panduan tugas akhir algoritma dan pemograman");
-}
 //nama:alferi muskamsi
 //nim:12250511538
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int saldo = 100000;
+const int PIN = 1003;
+const int MAX_ATTEMPTS = 3;
+
+void clearScreen() {
+    #if defined(_WIN32) || defined(_WIN64)
+        system("cls");
+    #else
+        system("clear");
+    #endif
+}
+
+int login() {
+    int pin_input, attempts = 0;
+    
+    while (attempts < MAX_ATTEMPTS) {
+        clearScreen();
+        printf("==================================\n");
+        printf("==SELAMAT DATANG DI BANK ALFERI===\n");
+        printf("==================================\n");
+        printf("Masukkan PIN atm anda : ");
+        scanf("%d", &pin_input);
+        if (pin_input == PIN) {
+            return 1; // Login berhasil
+        } else {
+            printf("PIN salah. Silakan coba lagi.\n");
+            attempts++;
+        }
+    }
+    return 0; // Login gagal
+}
+
+void tarikTunai() {
+    clearScreen();
+    int jumlah;
+   
+    printf("Masukkan jumlah yang akan ditarik: ");
+    scanf("%d", &jumlah);
+    if (jumlah <= saldo) {
+        saldo -= jumlah;
+        printf("Penarikan berhasil. Saldo Anda sekarang: %d\n", saldo);
+    } else {
+        printf("Saldo tidak mencukupi.\n");
+    }
+}
+
+void transfer() {
+    clearScreen();
+    int jumlah;
+    printf("========== BANK ALFERI ==========\n");
+    printf("Masukkan jumlah yang ingin anda transfer: ");
+    scanf("%d", &jumlah);
+    if (jumlah <= saldo) {
+        saldo -= jumlah;
+        printf("Alhamdulillah Transfer berhasil. Saldo Anda sekarang: %d\n", saldo);
+    } else {
+        printf("Saldo tidak mencukupi.\n");
+    }
+}
+
+void setorTunai() {
+    clearScreen();
+    int jumlah;
+    printf("========== BANK ALFERI ==========\n");
+    printf("Masukkan jumlah yang ingin anda setor: ");
+    scanf("%d", &jumlah);
+    saldo += jumlah;
+    printf("Alhamdulillah Setoran berhasil. Saldo Anda sekarang: %d\n", saldo);
+}
+
+void cekSaldo() {
+    clearScreen();
+    printf("========== BANK ALFERI ==========\n");
+    printf("Saldo Anda saat ini: %d\n", saldo);
+}
+
+void topUp() {
+    clearScreen();
+    int pilihan, jumlah;
+    printf("========== BANK ALFERI ==========\n");
+    printf("Pilih layanan Top Up:\n");
+    printf("1. DANA\n");
+    printf("2. SHOPEEPAY\n");
+    printf("3. GOPAY\n");
+    printf("Pilihan Anda: ");
+    scanf("%d", &pilihan);
+    
+    printf("Masukkan jumlah yang akan di-top up: ");
+    scanf("%d", &jumlah);
+
+    if (jumlah <= saldo) {
+        saldo -= jumlah;
+        switch (pilihan) {
+            case 1:
+                printf("Top up ke DANA DNID ALFXXX MUSXXXXX berhasil. Saldo Anda sekarang: %d\n", saldo);
+                break;
+            case 2:
+                printf("Top up ke SHOPEEPAY ALFERI MUSKAMSI berhasil. Saldo Anda sekarang: %d\n", saldo);
+                break;
+            case 3:
+                printf("Top up ke GOPAY ALFERI MUSKAMSI berhasil. Saldo Anda sekarang: %d\n", saldo);
+                break;
+            default:
+                printf("Pilihan tidak valid. Top up gagal.\n");
+                saldo += jumlah; // Kembalikan saldo
+        }
+    } else {
+        printf("Maaf Saldo anda tidak mencukupi.\n");
+    }
+}
+
+int main() {
+    if (!login()) {
+        printf("Kartu Anda terblokir.\n");
+        exit(0);
+    }
+
+    int pilihan;
+    while (1) {
+        clearScreen();
+        printf("========== BANK ALFERI ==========\n");
+        printf("Menu Transaksi:\n");
+        printf("1. Mau Tarik Tunai ?\n");
+        printf("2. Mau Transfer ?\n");
+        printf("3. Mau Setor Tunai ?\n");
+        printf("4. Mau Cek Saldo ?\n");
+        printf("5. Mau Top Up E-WALET ?\n");
+        printf("6. Exit\n");
+        printf("Silakan pilih menu (Angka): ");
+        scanf("%d", &pilihan);
+
+        switch (pilihan) {
+            case 1:
+                tarikTunai();
+                break;
+            case 2:
+                transfer();
+                break;
+            case 3:
+                setorTunai();
+                break;
+            case 4:
+                cekSaldo();
+                break;
+            case 5:
+                topUp();
+                break;
+            case 6:
+                printf("Terima kasih telah menggunakan layanan kami.\n");
+                exit(0);
+            default:
+                printf("Pilihan tidak valid. Silakan coba lagi.\n");
+        }
+        printf("\nTekan Enter untuk melanjutkan...");
+        getchar(); // Menunggu input pengguna
+        getchar();
+    }
+
+    return 0;
+}
