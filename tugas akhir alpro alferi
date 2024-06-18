@@ -1,0 +1,6 @@
+#include<studio.h>
+int main(){
+  printf("panduan tugas akhir algoritma dan pemograman");
+}
+//nama:alferi muskamsi
+//nim:12250511538
